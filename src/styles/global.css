@@ -1,0 +1,114 @@
+@import './fonts.css';
+
+:root {
+  /* Brand colors */
+  --color-orange-deep: #BC403D;
+  --color-orange-bright: #f09410;
+  --color-orange-mid: #D96A1E;
+  --color-black: #0A0A0A;
+  --color-white: #FAFAFA;
+  --color-gray-dark: #111111;
+  --color-gray-mid: #1C1C1C;
+  --color-gray-light: #666666;
+
+  /* Gradient */
+  --gradient-brand: linear-gradient(135deg, var(--color-orange-deep), var(--color-orange-bright));
+  --gradient-brand-vertical: linear-gradient(180deg, var(--color-orange-bright), var(--color-orange-deep));
+
+  /* Fonts */
+  --font-heading: 'Syne', sans-serif;
+  --font-body: 'Nexa', sans-serif;
+  --font-accent: 'Diagramm', sans-serif;
+
+  /* Spacing */
+  --section-padding: 8rem 2rem;
+  --container-max: 1200px;
+
+  /* Easings */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+}
+
+body {
+  font-family: var(--font-body);
+  font-weight: 200;
+  background-color: var(--color-black);
+  color: var(--color-white);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+.container {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+::selection {
+  background: var(--color-orange-bright);
+  color: var(--color-black);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-black);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(240, 148, 16, 0.3);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-orange-mid);
+}
+
+/* Shared section label style — used across sections */
+.section-header__label {
+  display: block;
+  font-family: var(--font-accent);
+  font-size: 0.72rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--color-orange-bright);
+  margin-bottom: 0.8rem;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
