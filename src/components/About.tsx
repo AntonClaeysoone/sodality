@@ -75,7 +75,7 @@ export default function About() {
               transition={{ duration: 0.6, delay: 0.4 }}
             >
               <span className="about-visual__badge-year">EST.</span>
-              <span className="about-visual__badge-number">2024</span>
+              <span className="about-visual__badge-number">2026</span>
             </motion.div>
           </motion.div>
 
