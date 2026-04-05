@@ -33,7 +33,7 @@ export default function Hero() {
     <section className="hero" ref={heroRef}>
       {/* Parallax background layer */}
       <motion.div className="hero__bg-layer" style={{ y: bgY, scale: bgScale }}>
-        <img src="/SO_COLOR_GRAIN.png" alt="" className="hero__bg-image" />
+        <img src="/SO_COLOR.png" alt="" className="hero__bg-image" />
       </motion.div>
 
       {/* Grain texture overlay — separate parallax speed */}

@@ -111,14 +111,7 @@
 .hero__title-word {
   display: inline-block;
   will-change: transform, opacity;
-  background: linear-gradient(
-    180deg,
-    var(--color-white) 0%,
-    rgba(240, 148, 16, 0.85) 100%
-  );
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--color-white);
 }
 
 /* ── Divider ── */

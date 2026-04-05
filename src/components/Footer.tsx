@@ -23,8 +23,7 @@ export default function Footer() {
           <div className="footer__col">
             <img src="/SO_logo_WHITE.png" alt="Sodality" className="footer__logo" />
             <p className="footer__tagline">
-              United Artist Agency<br />
-              Dancin' is what we do
+              Uniting all kinds of House, Allround & Clubbing artists • based in Belgium, representing worldwide
             </p>
           </div>
 

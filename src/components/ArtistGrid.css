@@ -3,6 +3,7 @@
 .artists-section {
   padding: 8rem 0;
   position: relative;
+  background: var(--color-white);
 }
 
 /* ── Section header ── */
@@ -27,6 +28,10 @@
   color: var(--color-white);
   line-height: 1;
   will-change: transform;
+}
+
+.artists-section .section-header__title {
+  color: var(--color-black);
 }
 
 .section-header__line {
@@ -165,6 +170,7 @@
   font-weight: 700;
   letter-spacing: 0;
   text-transform: none;
+  color: var(--color-black);
 }
 
 .artist-card__genre-tag {
@@ -172,7 +178,7 @@
   font-size: 0.65rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--color-gray-light);
+  color: #999;
 }
 
 /* ── View all CTA ── */
@@ -180,6 +186,16 @@
 .artists-cta {
   text-align: center;
   margin-top: 4rem;
+}
+
+.artists-section .btn--outline {
+  color: var(--color-black);
+  border-color: rgba(0, 0, 0, 0.2);
+}
+
+.artists-section .btn--outline:hover {
+  border-color: var(--color-orange-bright);
+  color: var(--color-orange-bright);
 }
 
 .btn--large {

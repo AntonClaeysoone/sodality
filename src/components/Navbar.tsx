@@ -46,7 +46,7 @@ export default function Navbar() {
               <li key={link.to}>
                 <Link
                   to={link.to}
-                  className={`navbar__link ${location.pathname === link.to ? 'navbar__link--active' : ''}`}
+                  className={`navbar__link ${link.to === '/contact' ? 'navbar__link--cta' : ''} ${location.pathname === link.to ? 'navbar__link--active' : ''}`}
                 >
                   {link.label}
                 </Link>
