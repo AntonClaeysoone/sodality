@@ -52,8 +52,11 @@
 
 /* ── Card ── */
 
-.artist-card {
+a.artist-card {
+  display: block;
   cursor: pointer;
+  text-decoration: none;
+  color: inherit;
 }
 
 .artist-card__visual {

@@ -1,4 +1,5 @@
 import { useRef, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { supabase } from '../lib/supabase';
 import './ArtistGrid.css';
@@ -32,7 +33,6 @@ function ArtistCard({ artist, index }: { artist: Artist; index: number }) {
   return (
     <motion.div
       ref={ref}
-      className="artist-card"
       initial={{ opacity: 0, y: 80 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-80px' }}
@@ -42,47 +42,49 @@ function ArtistCard({ artist, index }: { artist: Artist; index: number }) {
         ease: [0.25, 0.46, 0.45, 0.94],
       }}
     >
-      <div className="artist-card__visual">
-        <motion.div
-          className="artist-card__image"
-          style={{ y }}
-        >
-          {artist.image_url ? (
-            <img
-              src={artist.image_url}
-              alt={artist.name}
-              className="artist-card__img"
-            />
-          ) : (
-            <div
-              className="artist-card__placeholder"
-              style={{ background: `linear-gradient(135deg, ${artist.color}22, ${artist.color}08)` }}
-            >
-              <span
-                className="artist-card__initials"
-                style={{ color: artist.color }}
+      <Link to={`/artists/${artist.id}`} className="artist-card">
+        <div className="artist-card__visual">
+          <motion.div
+            className="artist-card__image"
+            style={{ y }}
+          >
+            {artist.image_url ? (
+              <img
+                src={artist.image_url}
+                alt={artist.name}
+                className="artist-card__img"
+              />
+            ) : (
+              <div
+                className="artist-card__placeholder"
+                style={{ background: `linear-gradient(135deg, ${artist.color}22, ${artist.color}08)` }}
               >
-                {artist.initial}
-              </span>
-            </div>
-          )}
-        </motion.div>
+                <span
+                  className="artist-card__initials"
+                  style={{ color: artist.color }}
+                >
+                  {artist.initial}
+                </span>
+              </div>
+            )}
+          </motion.div>
 
-        {/* Hover overlay */}
-        <div className="artist-card__hover">
-          <div className="artist-card__hover-line" />
-          <span className="artist-card__genre">{artist.genre}</span>
-          <div className="artist-card__hover-cta">View Profile</div>
+          {/* Hover overlay */}
+          <div className="artist-card__hover">
+            <div className="artist-card__hover-line" />
+            <span className="artist-card__genre">{artist.genre}</span>
+            <div className="artist-card__hover-cta">View Profile</div>
+          </div>
+
+          {/* Corner accent */}
+          <div className="artist-card__corner" style={{ background: artist.color }} />
         </div>
 
-        {/* Corner accent */}
-        <div className="artist-card__corner" style={{ background: artist.color }} />
-      </div>
-
-      <div className="artist-card__info">
-        <h3 className="artist-card__name">{artist.name}</h3>
-        <span className="artist-card__genre-tag">{artist.genre}</span>
-      </div>
+        <div className="artist-card__info">
+          <h3 className="artist-card__name">{artist.name}</h3>
+          <span className="artist-card__genre-tag">{artist.genre}</span>
+        </div>
+      </Link>
     </motion.div>
   );
 }
