@@ -1,8 +1,15 @@
 import { motion } from 'framer-motion';
 import { Mail, Instagram, ArrowUpRight } from 'lucide-react';
+import { useSiteContent } from '../context/SiteContent';
 import './Contact.css';
 
 export default function Contact() {
+  const { content } = useSiteContent();
+
+  const contactTitle = content.contact_title || "Let's create something together";
+  const highlight = content.contact_highlight || 'something together';
+  const titleParts = contactTitle.split(highlight);
+
   return (
     <section className="contact-section" id="contact">
       {/* Background glow */}
@@ -20,33 +27,31 @@ export default function Contact() {
           >
             <span className="section-header__label">Contact</span>
             <h2 className="contact-info__title">
-              Let's create <br />
-              <span className="contact-info__highlight">something together</span>
+              {titleParts[0]}<br />
+              <span className="contact-info__highlight">{highlight}</span>
+              {titleParts[1] || ''}
             </h2>
-            <p className="contact-info__body">
-              Interested in booking one of our artists? Have a collaboration in mind?
-              We'd love to hear from you.
-            </p>
+            <p className="contact-info__body">{content.contact_body}</p>
 
             <div className="contact-info__links">
-              <a href="mailto:info@sodality.be" className="contact-info__link">
+              <a href={`mailto:${content.contact_email}`} className="contact-info__link">
                 <div className="contact-info__link-icon">
                   <Mail size={20} />
                 </div>
                 <div className="contact-info__link-text">
                   <span className="contact-info__link-label">Email</span>
-                  <span className="contact-info__link-value">info@sodality.be</span>
+                  <span className="contact-info__link-value">{content.contact_email}</span>
                 </div>
                 <ArrowUpRight size={16} className="contact-info__link-arrow" />
               </a>
 
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="contact-info__link">
+              <a href={content.contact_instagram_url} target="_blank" rel="noopener noreferrer" className="contact-info__link">
                 <div className="contact-info__link-icon">
                   <Instagram size={20} />
                 </div>
                 <div className="contact-info__link-text">
                   <span className="contact-info__link-label">Instagram</span>
-                  <span className="contact-info__link-value">@sodality</span>
+                  <span className="contact-info__link-value">{content.contact_instagram_handle}</span>
                 </div>
                 <ArrowUpRight size={16} className="contact-info__link-arrow" />
               </a>

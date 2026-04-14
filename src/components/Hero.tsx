@@ -1,8 +1,10 @@
 import { useRef } from 'react';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
+import { useSiteContent } from '../context/SiteContent';
 import './Hero.css';
 
 export default function Hero() {
+  const { content, images } = useSiteContent();
   const heroRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: heroRef,
@@ -27,13 +29,13 @@ export default function Hero() {
   const scrollIndicatorOpacity = useTransform(smoothProgress, [0, 0.15], [1, 0]);
 
   // Staggered word animation
-  const titleWords = "Dancin' is what we do".split(' ');
+  const titleWords = (content.hero_title || "Dancin' is what we do").split(' ');
 
   return (
     <section className="hero" ref={heroRef}>
       {/* Parallax background layer */}
       <motion.div className="hero__bg-layer" style={{ y: bgY, scale: bgScale }}>
-        <img src="/SO_COLOR.png" alt="" className="hero__bg-image" />
+        <img src={images.hero_background || '/SO_COLOR.png'} alt="" className="hero__bg-image" />
       </motion.div>
 
       {/* Grain texture overlay — separate parallax speed */}
@@ -52,7 +54,7 @@ export default function Hero() {
       >
         {/* Logo with scale-down on scroll */}
         <motion.img
-          src="/SO_logo_WHITE.png"
+          src={images.logo_white || '/SO_logo_WHITE.png'}
           alt="Sodality"
           className="hero__logo"
           style={{ scale: logoScale }}
@@ -96,7 +98,7 @@ export default function Hero() {
           animate={{ opacity: 1, letterSpacing: '0.3em' }}
           transition={{ duration: 1.2, delay: 1.1, ease: 'easeOut' }}
         >
-          United Artist Agency
+          {content.hero_subtitle}
         </motion.p>
 
         {/* CTA buttons */}
@@ -107,11 +109,11 @@ export default function Hero() {
           transition={{ duration: 0.8, delay: 1.4, ease: 'easeOut' }}
         >
           <a href="/artists" className="btn btn--primary">
-            <span className="btn__text">Our Artists</span>
+            <span className="btn__text">{content.hero_cta_primary}</span>
             <span className="btn__shine" />
           </a>
           <a href="/contact" className="btn btn--outline">
-            Book Now
+            {content.hero_cta_secondary}
           </a>
         </motion.div>
       </motion.div>

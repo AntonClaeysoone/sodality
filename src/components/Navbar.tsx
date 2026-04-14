@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useSiteContent } from '../context/SiteContent';
 import './Navbar.css';
 
 const navLinks = [
@@ -15,6 +16,7 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
+  const { content, images } = useSiteContent();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 50);
@@ -38,7 +40,7 @@ export default function Navbar() {
       <nav className={`navbar ${scrolled ? 'navbar--scrolled' : ''}`}>
         <div className="navbar__inner container">
           <Link to="/" className="navbar__logo">
-            <img src="/SO_logo_WHITE.png" alt="Sodality" />
+            <img src={images.logo_white || '/SO_logo_WHITE.png'} alt="Sodality" />
           </Link>
 
           <ul className="navbar__links">
@@ -102,8 +104,8 @@ export default function Navbar() {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.6 }}
               >
-                <a href="mailto:info@sodality.be">info@sodality.be</a>
-                <span>www.sodality.be</span>
+                <a href={`mailto:${content.contact_email}`}>{content.contact_email}</a>
+                <span>{content.contact_website}</span>
               </motion.div>
             </div>
           </motion.div>

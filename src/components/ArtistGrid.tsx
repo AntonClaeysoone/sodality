@@ -1,22 +1,23 @@
-import { useRef } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
+import { supabase } from '../lib/supabase';
 import './ArtistGrid.css';
 
 interface Artist {
-  id: number;
+  id: string;
   name: string;
   genre: string;
   initial: string;
   color: string;
 }
 
-const placeholderArtists: Artist[] = [
-  { id: 1, name: 'DJ Phantom', genre: 'Tech House', initial: 'PH', color: '#f09410' },
-  { id: 2, name: 'Luna Waves', genre: 'Melodic Techno', initial: 'LW', color: '#D96A1E' },
-  { id: 3, name: 'Bass Theory', genre: 'Drum & Bass', initial: 'BT', color: '#BC403D' },
-  { id: 4, name: 'Echo Chamber', genre: 'Deep House', initial: 'EC', color: '#f09410' },
-  { id: 5, name: 'Neon Pulse', genre: 'Progressive House', initial: 'NP', color: '#D96A1E' },
-  { id: 6, name: 'Volt', genre: 'Techno', initial: 'VT', color: '#BC403D' },
+const fallbackArtists: Artist[] = [
+  { id: '1', name: 'DJ Phantom', genre: 'Tech House', initial: 'PH', color: '#f09410' },
+  { id: '2', name: 'Luna Waves', genre: 'Melodic Techno', initial: 'LW', color: '#D96A1E' },
+  { id: '3', name: 'Bass Theory', genre: 'Drum & Bass', initial: 'BT', color: '#BC403D' },
+  { id: '4', name: 'Echo Chamber', genre: 'Deep House', initial: 'EC', color: '#f09410' },
+  { id: '5', name: 'Neon Pulse', genre: 'Progressive House', initial: 'NP', color: '#D96A1E' },
+  { id: '6', name: 'Volt', genre: 'Techno', initial: 'VT', color: '#BC403D' },
 ];
 
 function ArtistCard({ artist, index }: { artist: Artist; index: number }) {
@@ -78,6 +79,7 @@ function ArtistCard({ artist, index }: { artist: Artist; index: number }) {
 }
 
 export default function ArtistGrid() {
+  const [artists, setArtists] = useState<Artist[]>(fallbackArtists);
   const sectionRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -85,6 +87,28 @@ export default function ArtistGrid() {
   });
   const titleX = useTransform(scrollYProgress, [0, 1], [200, 0]);
   const lineWidth = useTransform(scrollYProgress, [0.2, 0.8], ['0%', '100%']);
+
+  useEffect(() => {
+    if (!supabase) return;
+    supabase
+      .from('artists')
+      .select('id, name, genre, initials, accent_color, sort_order')
+      .eq('visible', true)
+      .order('sort_order')
+      .then(({ data }) => {
+        if (data && data.length > 0) {
+          setArtists(
+            data.map((a) => ({
+              id: a.id,
+              name: a.name,
+              genre: a.genre,
+              initial: a.initials || a.name.split(' ').map((w: string) => w[0]).join('').slice(0, 2).toUpperCase(),
+              color: a.accent_color || '#f09410',
+            }))
+          );
+        }
+      });
+  }, []);
 
   return (
     <section className="artists-section" id="artists" ref={sectionRef}>
@@ -111,7 +135,7 @@ export default function ArtistGrid() {
 
         {/* Grid */}
         <div className="artists-grid">
-          {placeholderArtists.map((artist, i) => (
+          {artists.map((artist, i) => (
             <ArtistCard key={artist.id} artist={artist} index={i} />
           ))}
         </div>

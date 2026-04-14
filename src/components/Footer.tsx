@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Instagram, Mail } from 'lucide-react';
+import { useSiteContent } from '../context/SiteContent';
 import './Footer.css';
 
 const footerLinks = [
@@ -10,6 +11,8 @@ const footerLinks = [
 ];
 
 export default function Footer() {
+  const { content, images } = useSiteContent();
+
   return (
     <footer className="footer">
       {/* Big brand text */}
@@ -21,10 +24,8 @@ export default function Footer() {
         <div className="footer__grid">
           {/* Col 1 — Logo + tagline */}
           <div className="footer__col">
-            <img src="/SO_logo_WHITE.png" alt="Sodality" className="footer__logo" />
-            <p className="footer__tagline">
-              Uniting all kinds of House, Allround & Clubbing artists • based in Belgium, representing worldwide
-            </p>
+            <img src={images.logo_white || '/SO_logo_WHITE.png'} alt="Sodality" className="footer__logo" />
+            <p className="footer__tagline">{content.footer_tagline}</p>
           </div>
 
           {/* Col 2 — Navigation */}
@@ -43,13 +44,13 @@ export default function Footer() {
           <div className="footer__col">
             <h4 className="footer__col-title">Connect</h4>
             <div className="footer__social-links">
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="footer__social-link">
+              <a href={content.contact_instagram_url} target="_blank" rel="noopener noreferrer" className="footer__social-link">
                 <Instagram size={16} />
                 <span>Instagram</span>
               </a>
-              <a href="mailto:info@sodality.be" className="footer__social-link">
+              <a href={`mailto:${content.contact_email}`} className="footer__social-link">
                 <Mail size={16} />
-                <span>info@sodality.be</span>
+                <span>{content.contact_email}</span>
               </a>
             </div>
           </div>
@@ -58,10 +59,10 @@ export default function Footer() {
           <div className="footer__col">
             <h4 className="footer__col-title">Info</h4>
             <p className="footer__info-text">
-              Based in Belgium<br />
-              Worldwide bookings
+              {content.footer_location}<br />
+              {content.footer_bookings}
             </p>
-            <span className="footer__info-text">www.sodality.be</span>
+            <span className="footer__info-text">{content.contact_website}</span>
           </div>
         </div>
 

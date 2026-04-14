@@ -1,21 +1,22 @@
-import { useRef } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
+import { supabase } from '../lib/supabase';
 import './EventsSection.css';
 
 interface Event {
-  id: number;
+  id: string;
   title: string;
   date: string;
   venue: string;
   city: string;
 }
 
-const placeholderEvents: Event[] = [
-  { id: 1, title: 'Sodality Presents: Summer Rave', date: '2026-06-15', venue: 'Sportpaleis', city: 'Antwerp' },
-  { id: 2, title: 'Underground Sessions', date: '2026-07-22', venue: 'Fuse', city: 'Brussels' },
-  { id: 3, title: 'Bass Night', date: '2026-08-10', venue: 'Kompass', city: 'Ghent' },
-  { id: 4, title: 'Sunset Grooves', date: '2026-09-05', venue: 'Labyrinth Club', city: 'Hasselt' },
+const fallbackEvents: Event[] = [
+  { id: '1', title: 'Sodality Presents: Summer Rave', date: '2026-06-15', venue: 'Sportpaleis', city: 'Antwerp' },
+  { id: '2', title: 'Underground Sessions', date: '2026-07-22', venue: 'Fuse', city: 'Brussels' },
+  { id: '3', title: 'Bass Night', date: '2026-08-10', venue: 'Kompass', city: 'Ghent' },
+  { id: '4', title: 'Sunset Grooves', date: '2026-09-05', venue: 'Labyrinth Club', city: 'Hasselt' },
 ];
 
 function formatDay(dateStr: string) {
@@ -31,12 +32,27 @@ function formatYear(dateStr: string) {
 }
 
 export default function EventsSection() {
+  const [events, setEvents] = useState<Event[]>(fallbackEvents);
   const sectionRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ['start end', 'start start'],
   });
   const titleX = useTransform(scrollYProgress, [0, 1], [-200, 0]);
+
+  useEffect(() => {
+    if (!supabase) return;
+    supabase
+      .from('events')
+      .select('id, title, date, venue, city')
+      .eq('visible', true)
+      .order('date')
+      .then(({ data }) => {
+        if (data && data.length > 0) {
+          setEvents(data);
+        }
+      });
+  }, []);
 
   return (
     <section className="events-section" id="events" ref={sectionRef}>
@@ -67,7 +83,7 @@ export default function EventsSection() {
         </div>
 
         <div className="events-list">
-          {placeholderEvents.map((event, i) => (
+          {events.map((event, i) => (
             <motion.a
               key={event.id}
               href="/contact"

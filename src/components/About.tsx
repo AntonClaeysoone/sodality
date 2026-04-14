@@ -1,5 +1,7 @@
 import { useRef, useEffect, useState } from 'react';
 import { motion, useScroll, useTransform, useInView } from 'framer-motion';
+import { supabase } from '../lib/supabase';
+import { useSiteContent } from '../context/SiteContent';
 import './About.css';
 
 function AnimatedCounter({ target, suffix = '' }: { target: number; suffix?: string }) {
@@ -28,7 +30,13 @@ function AnimatedCounter({ target, suffix = '' }: { target: number; suffix?: str
   return <span ref={ref}>{count}{suffix}</span>;
 }
 
-const stats = [
+interface Stat {
+  value: number;
+  suffix: string;
+  label: string;
+}
+
+const fallbackStats: Stat[] = [
   { value: 20, suffix: '+', label: 'Artists' },
   { value: 150, suffix: '+', label: 'Events / Year' },
   { value: 12, suffix: '', label: 'Countries' },
@@ -36,6 +44,8 @@ const stats = [
 ];
 
 export default function About() {
+  const [stats, setStats] = useState<Stat[]>(fallbackStats);
+  const { content, images } = useSiteContent();
   const sectionRef = useRef<HTMLElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
 
@@ -46,6 +56,23 @@ export default function About() {
 
   const imageY = useTransform(scrollYProgress, [0, 1], [80, -80]);
   const imageScale = useTransform(scrollYProgress, [0, 0.5], [1.15, 1]);
+
+  useEffect(() => {
+    if (!supabase) return;
+    supabase
+      .from('statistics')
+      .select('value, suffix, label, sort_order')
+      .order('sort_order')
+      .then(({ data }) => {
+        if (data && data.length > 0) {
+          setStats(data.map((s) => ({ value: s.value, suffix: s.suffix || '', label: s.label })));
+        }
+      });
+  }, []);
+
+  const aboutTitle = content.about_title || 'Born from the dancefloor';
+  const highlight = content.about_highlight || 'dancefloor';
+  const titleParts = aboutTitle.split(highlight);
 
   return (
     <section className="about-section" id="about" ref={sectionRef}>
@@ -61,7 +88,7 @@ export default function About() {
           >
             <div className="about-visual__frame" ref={imageRef}>
               <motion.img
-                src="/SO_COLOR_GRAIN.png"
+                src={images.about_image || '/SO_COLOR_GRAIN.png'}
                 alt="Sodality vibe"
                 style={{ y: imageY, scale: imageScale }}
               />
@@ -75,7 +102,7 @@ export default function About() {
               transition={{ duration: 0.6, delay: 0.4 }}
             >
               <span className="about-visual__badge-year">EST.</span>
-              <span className="about-visual__badge-number">2026</span>
+              <span className="about-visual__badge-number">{content.about_established_year}</span>
             </motion.div>
           </motion.div>
 
@@ -89,18 +116,13 @@ export default function About() {
           >
             <span className="section-header__label">About Us</span>
             <h2 className="about-text__title">
-              Born from the <br />
-              <span className="about-text__highlight">dancefloor</span>
+              {titleParts[0]}<br />
+              <span className="about-text__highlight">{highlight}</span>
+              {titleParts[1] || ''}
             </h2>
 
-            <p className="about-text__body">
-              Sodality is a united artist agency born from the heart of Belgium's electronic music scene.
-              We represent the next generation of DJs and producers, connecting talent with stages across Europe and beyond.
-            </p>
-            <p className="about-text__body">
-              Our mission is simple: bring people together through music. From intimate club nights to
-              massive festival stages, we curate experiences that move bodies and souls.
-            </p>
+            <p className="about-text__body">{content.about_paragraph_1}</p>
+            <p className="about-text__body">{content.about_paragraph_2}</p>
 
             <a href="/about" className="about-text__link">
               <span>Learn more about us</span>
