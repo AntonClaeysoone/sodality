@@ -9,6 +9,7 @@ interface Artist {
   genre: string;
   initial: string;
   color: string;
+  image_url?: string;
 }
 
 const fallbackArtists: Artist[] = [
@@ -46,17 +47,25 @@ function ArtistCard({ artist, index }: { artist: Artist; index: number }) {
           className="artist-card__image"
           style={{ y }}
         >
-          <div
-            className="artist-card__placeholder"
-            style={{ background: `linear-gradient(135deg, ${artist.color}22, ${artist.color}08)` }}
-          >
-            <span
-              className="artist-card__initials"
-              style={{ color: artist.color }}
+          {artist.image_url ? (
+            <img
+              src={artist.image_url}
+              alt={artist.name}
+              className="artist-card__img"
+            />
+          ) : (
+            <div
+              className="artist-card__placeholder"
+              style={{ background: `linear-gradient(135deg, ${artist.color}22, ${artist.color}08)` }}
             >
-              {artist.initial}
-            </span>
-          </div>
+              <span
+                className="artist-card__initials"
+                style={{ color: artist.color }}
+              >
+                {artist.initial}
+              </span>
+            </div>
+          )}
         </motion.div>
 
         {/* Hover overlay */}
@@ -92,7 +101,7 @@ export default function ArtistGrid() {
     if (!supabase) return;
     supabase
       .from('artists')
-      .select('id, name, genre, initials, accent_color, sort_order')
+      .select('id, name, genre, initials, accent_color, image_url, sort_order')
       .eq('visible', true)
       .order('sort_order')
       .then(({ data }) => {
@@ -104,6 +113,7 @@ export default function ArtistGrid() {
               genre: a.genre,
               initial: a.initials || a.name.split(' ').map((w: string) => w[0]).join('').slice(0, 2).toUpperCase(),
               color: a.accent_color || '#f09410',
+              image_url: a.image_url || undefined,
             }))
           );
         }
