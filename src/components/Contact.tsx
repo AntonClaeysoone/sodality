@@ -80,10 +80,17 @@ export default function Contact() {
               </div>
             </div>
 
-            <div className="contact-form__field">
-              <input type="text" id="subject" placeholder=" " />
-              <label htmlFor="subject">Subject</label>
-              <div className="contact-form__field-line" />
+            <div className="contact-form__row">
+              <div className="contact-form__field">
+                <input type="tel" id="phone" placeholder=" " />
+                <label htmlFor="phone">Phone number</label>
+                <div className="contact-form__field-line" />
+              </div>
+              <div className="contact-form__field">
+                <input type="text" id="subject" placeholder=" " />
+                <label htmlFor="subject">Subject</label>
+                <div className="contact-form__field-line" />
+              </div>
             </div>
 
             <div className="contact-form__field">

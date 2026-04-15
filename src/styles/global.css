@@ -11,9 +11,9 @@
   --color-gray-mid: #1C1C1C;
   --color-gray-light: #666666;
 
-  /* Gradient */
-  --gradient-brand: linear-gradient(135deg, var(--color-orange-deep), var(--color-orange-bright));
-  --gradient-brand-vertical: linear-gradient(180deg, var(--color-orange-bright), var(--color-orange-deep));
+  /* Gradient — 30% deep, 70% bright */
+  --gradient-brand: linear-gradient(135deg, #cf580c 30%, #f19313 70%);
+  --gradient-brand-vertical: linear-gradient(180deg, #f19313 30%, #cf580c 100%);
 
   /* Fonts */
   --font-heading: 'Syne', sans-serif;
