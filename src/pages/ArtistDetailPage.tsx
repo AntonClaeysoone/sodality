@@ -192,23 +192,6 @@ export default function ArtistDetailPage() {
               transition={{ duration: 0.6, delay: 0.6 }}
             >
               <div className="artist-detail__divider" style={{ background: color }} />
-
-              {socials.length > 0 && (
-                <div className="artist-detail__hero-socials">
-                  {socials.map((s) => (
-                    <a
-                      key={s.label}
-                      href={s.url!}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="artist-detail__social-icon"
-                      title={s.label}
-                    >
-                      <s.icon size={18} />
-                    </a>
-                  ))}
-                </div>
-              )}
             </motion.div>
           </div>
         </motion.div>
@@ -236,6 +219,24 @@ export default function ArtistDetailPage() {
                 <p className="artist-detail__bio-text artist-detail__bio-text--empty">
                   More info coming soon.
                 </p>
+              )}
+
+              {/* Social links */}
+              {socials.length > 0 && (
+                <div className="artist-detail__bio-socials">
+                  {socials.map((s) => (
+                    <a
+                      key={s.label}
+                      href={s.url!}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="artist-detail__social-icon"
+                      title={s.label}
+                    >
+                      <s.icon size={18} />
+                    </a>
+                  ))}
+                </div>
               )}
 
               {/* Press kit + Book CTA */}
