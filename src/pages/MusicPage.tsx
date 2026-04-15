@@ -235,7 +235,7 @@ export default function MusicPage() {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            Explore our latest releases and meet the producers behind the sound. Whether you're looking for ghost production, songwriting, or a creative collaborator — our team is here to bring your vision to life.
+          Explore our latest releases and meet the producers behind the sound. Whether you're looking for (ghost)production, collabs, songwriting or any other music-related advice: feel free to hit the contact button or slide in our dm's, we'd love to work together!
           </motion.p>
 
           {releases.length > 0 ? (
