@@ -30,6 +30,13 @@ interface ArtistMedia {
   sort_order: number;
 }
 
+interface ArtistReference {
+  id: string;
+  text: string;
+  source: string | null;
+  sort_order: number;
+}
+
 function getVideoEmbedUrl(url: string): string | null {
   // YouTube
   let match = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/);
@@ -44,6 +51,7 @@ export default function ArtistDetailPage() {
   const { id } = useParams<{ id: string }>();
   const [artist, setArtist] = useState<ArtistDetail | null>(null);
   const [media, setMedia] = useState<ArtistMedia[]>([]);
+  const [references, setReferences] = useState<ArtistReference[]>([]);
   const [loading, setLoading] = useState(true);
   const [lightboxImg, setLightboxImg] = useState<string | null>(null);
   const heroRef = useRef<HTMLElement>(null);
@@ -85,9 +93,15 @@ export default function ArtistDetailPage() {
         .select('id, type, url, caption, sort_order')
         .eq('artist_id', id)
         .order('sort_order'),
-    ]).then(([artistRes, mediaRes]) => {
+      supabase
+        .from('artist_references')
+        .select('id, text, source, sort_order')
+        .eq('artist_id', id)
+        .order('sort_order'),
+    ]).then(([artistRes, mediaRes, refsRes]) => {
       if (artistRes.data) setArtist(artistRes.data);
       if (mediaRes.data) setMedia(mediaRes.data);
+      if (refsRes.data) setReferences(refsRes.data);
       setLoading(false);
     });
   }, [id]);
@@ -219,6 +233,23 @@ export default function ArtistDetailPage() {
                 <p className="artist-detail__bio-text artist-detail__bio-text--empty">
                   More info coming soon.
                 </p>
+              )}
+
+              {/* References */}
+              {references.length > 0 && (
+                <div className="artist-detail__references">
+                  <span className="section-header__label">References</span>
+                  <ul className="artist-detail__references-list">
+                    {references.map((ref) => (
+                      <li key={ref.id} className="artist-detail__reference">
+                        <span className="artist-detail__reference-text">{ref.text}</span>
+                        {ref.source && (
+                          <span className="artist-detail__reference-source">— {ref.source}</span>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               )}
 
               {/* Social links */}
