@@ -7,6 +7,7 @@ import './Navbar.css';
 const navLinks = [
   { to: '/', label: 'Home' },
   { to: '/artists', label: 'Artists' },
+  { to: '/music', label: 'Music' },
   { to: '/events', label: 'Events' },
   { to: '/about', label: 'About' },
   { to: '/contact', label: 'Contact' },

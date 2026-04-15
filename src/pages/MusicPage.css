@@ -1,0 +1,299 @@
+/* ── Music & Production Page ── */
+
+.music-section {
+  padding: 8rem 0;
+  background: var(--color-black);
+}
+
+.music-section__empty {
+  font-size: 1rem;
+  color: var(--color-gray-light);
+  font-style: italic;
+  margin-top: 2rem;
+}
+
+/* ── Releases grid ── */
+.releases-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2.5rem;
+}
+
+/* ── Release card ── */
+.release-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.release-card__artwork {
+  position: relative;
+  aspect-ratio: 1;
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.release-card__artwork-inner {
+  position: absolute;
+  inset: -20px;
+  will-change: transform;
+}
+
+.release-card__artwork-inner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.release-card__artwork-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-gray-mid);
+}
+
+.release-card__artwork-placeholder span {
+  font-family: var(--font-heading);
+  font-size: 4rem;
+  font-weight: 800;
+  color: rgba(255, 255, 255, 0.06);
+}
+
+/* Type badge */
+.release-card__type-badge {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 2;
+  font-family: var(--font-accent);
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-white);
+  background: rgba(10, 10, 10, 0.7);
+  backdrop-filter: blur(8px);
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+}
+
+/* Info */
+.release-card__info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  margin-bottom: 0.75rem;
+}
+
+.release-card__title {
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--color-white);
+}
+
+.release-card__artist {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 200;
+  color: var(--color-gray-light);
+}
+
+.release-card__date {
+  font-family: var(--font-accent);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.25);
+  margin-top: 0.15rem;
+}
+
+/* Streaming links */
+.release-card__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.release-card__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.65rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 50px;
+  font-family: var(--font-accent);
+  font-size: 0.6rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+  transition: all 0.3s ease;
+}
+
+.release-card__link:hover {
+  border-color: var(--color-orange-bright);
+  color: var(--color-orange-bright);
+}
+
+/* ── Producers section ── */
+.producers-section {
+  padding: 6rem 0 8rem;
+  background: var(--color-gray-dark);
+  position: relative;
+}
+
+.producers-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 120px;
+  background: linear-gradient(180deg, var(--color-black), transparent);
+  pointer-events: none;
+}
+
+.producers-section .section-header__title {
+  color: var(--color-white);
+}
+
+.producers-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2.5rem;
+}
+
+/* ── Producer card ── */
+.producer-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.producer-card__image {
+  aspect-ratio: 1;
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.producer-card__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.producer-card:hover .producer-card__image img {
+  transform: scale(1.04);
+}
+
+.producer-card__image-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-gray-mid);
+}
+
+.producer-card__image-placeholder span {
+  font-family: var(--font-heading);
+  font-size: 4rem;
+  font-weight: 800;
+  color: rgba(255, 255, 255, 0.06);
+}
+
+.producer-card__info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.producer-card__name {
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--color-white);
+}
+
+.producer-card__role {
+  font-family: var(--font-accent);
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-orange-bright);
+}
+
+.producer-card__bio {
+  font-size: 0.85rem;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.5);
+  margin-top: 0.4rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.producer-card__socials {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 0.6rem;
+}
+
+.producer-card__social {
+  font-family: var(--font-accent);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.4);
+  transition: color 0.3s;
+}
+
+.producer-card__social:hover {
+  color: var(--color-orange-bright);
+}
+
+/* ── Responsive ── */
+@media (max-width: 1024px) {
+  .releases-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+
+  .producers-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .music-section {
+    padding: 5rem 0;
+  }
+
+  .releases-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.2rem;
+  }
+
+  .producers-section {
+    padding: 4rem 0 5rem;
+  }
+
+  .producers-grid {
+    grid-template-columns: 1fr;
+    max-width: 400px;
+  }
+
+  .release-card__title {
+    font-size: 0.9rem;
+  }
+
+  .release-card__artist {
+    font-size: 0.78rem;
+  }
+}

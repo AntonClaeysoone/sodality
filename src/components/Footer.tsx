@@ -5,6 +5,7 @@ import './Footer.css';
 
 const footerLinks = [
   { to: '/artists', label: 'Artists' },
+  { to: '/music', label: 'Music' },
   { to: '/events', label: 'Events' },
   { to: '/about', label: 'About' },
   { to: '/contact', label: 'Contact' },
