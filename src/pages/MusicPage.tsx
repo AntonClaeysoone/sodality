@@ -228,6 +228,16 @@ export default function MusicPage() {
             <motion.div className="section-header__line" style={{ width: lineWidth }} />
           </div>
 
+          <motion.p
+            className="music-section__intro"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
+            Explore our latest releases and meet the producers behind the sound. Whether you're looking for ghost production, songwriting, or a creative collaborator — our team is here to bring your vision to life.
+          </motion.p>
+
           {releases.length > 0 ? (
             <div className="releases-grid">
               {releases.map((release, i) => (
