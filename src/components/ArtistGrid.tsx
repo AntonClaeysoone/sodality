@@ -24,11 +24,12 @@ const fallbackArtists: Artist[] = [
 
 function ArtistCard({ artist, index }: { artist: Artist; index: number }) {
   const ref = useRef<HTMLDivElement>(null);
+  const isMobile = window.innerWidth <= 600;
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ['start end', 'end start'],
   });
-  const y = useTransform(scrollYProgress, [0, 1], [60, -60]);
+  const y = useTransform(scrollYProgress, [0, 1], isMobile ? [15, -15] : [60, -60]);
 
   return (
     <motion.div
@@ -89,7 +90,7 @@ function ArtistCard({ artist, index }: { artist: Artist; index: number }) {
   );
 }
 
-export default function ArtistGrid() {
+export default function ArtistGrid({ showViewAll = true }: { showViewAll?: boolean } = {}) {
   const [artists, setArtists] = useState<Artist[]>(fallbackArtists);
   const sectionRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
@@ -153,17 +154,19 @@ export default function ArtistGrid() {
         </div>
 
         {/* View all CTA */}
-        <motion.div
-          className="artists-cta"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          <a href="/artists" className="btn btn--outline btn--large">
-            View All Artists
-          </a>
-        </motion.div>
+        {showViewAll && (
+          <motion.div
+            className="artists-cta"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <a href="/artists" className="btn btn--outline btn--large">
+              View All Artists
+            </a>
+          </motion.div>
+        )}
       </div>
     </section>
   );

@@ -232,7 +232,15 @@ a.artist-card {
   }
 
   .artist-card__image {
-    inset: -15px;
+    inset: -8px;
+  }
+
+  .artist-card__corner {
+    border-width: 0 30px 30px 0;
+  }
+
+  .artist-card:hover .artist-card__corner {
+    border-width: 0 35px 35px 0;
   }
 
   .artist-card__visual {
