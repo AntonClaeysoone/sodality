@@ -240,7 +240,7 @@ a.artist-card {
   }
 
   .artist-card:hover .artist-card__corner {
-    border-width: 0 35px 35px 0;
+    border-width: 0 34px 34px 0;
   }
 
   .artist-card__visual {
