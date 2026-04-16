@@ -209,8 +209,19 @@
 /* Social links in bio section */
 .artist-detail__bio-socials {
   display: flex;
+  flex-wrap: wrap;
   gap: 0.5rem;
   margin-top: 2rem;
+}
+
+.artist-detail__socials-label {
+  width: 100%;
+  font-family: var(--font-accent);
+  font-size: 0.72rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--color-orange-bright);
+  margin-bottom: 0.3rem;
 }
 
 /* ── Body ── */

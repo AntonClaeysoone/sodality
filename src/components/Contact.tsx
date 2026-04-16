@@ -70,12 +70,12 @@ export default function Contact() {
             <div className="contact-form__row">
               <div className="contact-form__field">
                 <input type="text" id="name" placeholder=" " required />
-                <label htmlFor="name">Name</label>
+                <label htmlFor="name">Name *</label>
                 <div className="contact-form__field-line" />
               </div>
               <div className="contact-form__field">
                 <input type="email" id="email" placeholder=" " required />
-                <label htmlFor="email">Email</label>
+                <label htmlFor="email">Email *</label>
                 <div className="contact-form__field-line" />
               </div>
             </div>
@@ -95,7 +95,7 @@ export default function Contact() {
 
             <div className="contact-form__field">
               <textarea id="message" rows={5} placeholder=" " required />
-              <label htmlFor="message">Message</label>
+              <label htmlFor="message">Message *</label>
               <div className="contact-form__field-line" />
             </div>
 

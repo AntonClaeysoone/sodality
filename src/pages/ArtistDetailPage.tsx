@@ -255,6 +255,7 @@ export default function ArtistDetailPage() {
               {/* Social links */}
               {socials.length > 0 && (
                 <div className="artist-detail__bio-socials">
+                  <span className="artist-detail__socials-label">Follow this artist on social media</span>
                   {socials.map((s) => (
                     <a
                       key={s.label}
