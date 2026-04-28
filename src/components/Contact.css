@@ -147,7 +147,8 @@
 }
 
 .contact-form__field input,
-.contact-form__field textarea {
+.contact-form__field textarea,
+.contact-form__field select {
   width: 100%;
   background: transparent;
   border: none;
@@ -164,6 +165,15 @@
 .contact-form__field textarea {
   resize: vertical;
   padding-top: 1.8rem;
+}
+
+.contact-form__field select {
+  min-height: 120px;
+  padding-top: 2rem;
+}
+
+.contact-form__field select option {
+  color: var(--color-black);
 }
 
 .contact-form__field label {
@@ -183,7 +193,9 @@
 .contact-form__field input:focus ~ label,
 .contact-form__field input:not(:placeholder-shown) ~ label,
 .contact-form__field textarea:focus ~ label,
-.contact-form__field textarea:not(:placeholder-shown) ~ label {
+.contact-form__field textarea:not(:placeholder-shown) ~ label,
+.contact-form__field select:focus ~ label,
+.contact-form__field--has-value label {
   top: 0;
   font-size: 0.6rem;
   color: var(--color-orange-bright);
@@ -201,8 +213,23 @@
 }
 
 .contact-form__field input:focus ~ .contact-form__field-line,
-.contact-form__field textarea:focus ~ .contact-form__field-line {
+.contact-form__field textarea:focus ~ .contact-form__field-line,
+.contact-form__field select:focus ~ .contact-form__field-line {
   width: 100%;
+}
+
+.contact-form__select {
+  appearance: none;
+}
+
+.contact-form__status {
+  font-size: 0.85rem;
+  color: rgba(0, 0, 0, 0.72);
+}
+
+.contact-form .btn:disabled {
+  opacity: 0.75;
+  cursor: not-allowed;
 }
 
 /* Full-width button */

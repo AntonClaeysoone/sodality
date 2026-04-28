@@ -226,9 +226,7 @@ export default function ArtistDetailPage() {
             >
               <span className="section-header__label">About</span>
               {artist.bio ? (
-                artist.bio.split('\n\n').map((paragraph, i) => (
-                  <p key={i} className="artist-detail__bio-text">{paragraph}</p>
-                ))
+                <p className="artist-detail__bio-text">{artist.bio}</p>
               ) : (
                 <p className="artist-detail__bio-text artist-detail__bio-text--empty">
                   More info coming soon.

@@ -100,6 +100,7 @@
   letter-spacing: 0;
   text-transform: none;
   color: var(--color-white);
+  overflow-wrap: anywhere;
 }
 
 .release-card__artist {
@@ -225,6 +226,7 @@
   letter-spacing: 0;
   text-transform: none;
   color: var(--color-white);
+  overflow-wrap: anywhere;
 }
 
 .producer-card__role {
@@ -240,10 +242,7 @@
   line-height: 1.7;
   color: rgba(255, 255, 255, 0.5);
   margin-top: 0.4rem;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+  white-space: pre-line;
 }
 
 .producer-card__socials {
@@ -299,6 +298,13 @@
 
   .release-card__title {
     font-size: 0.9rem;
+  }
+
+  .music-section .section-header__title,
+  .producers-section .section-header__title {
+    font-size: clamp(1.8rem, 9vw, 2.4rem);
+    line-height: 1.05;
+    overflow-wrap: anywhere;
   }
 
   .release-card__artist {
