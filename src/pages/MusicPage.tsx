@@ -1,6 +1,7 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, type ComponentType } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { ExternalLink } from 'lucide-react';
+import { FaSoundcloud, FaSpotify, FaYoutube } from 'react-icons/fa';
+import { SiApplemusic, SiBeatport } from 'react-icons/si';
 import { supabase } from '../lib/supabase';
 import './MusicPage.css';
 
@@ -30,22 +31,18 @@ interface Producer {
   soundcloud_url: string | null;
 }
 
-const streamingIcons: Record<string, string> = {
-  spotify: 'Spotify',
-  apple_music: 'Apple Music',
-  soundcloud: 'SoundCloud',
-  youtube: 'YouTube',
-  beatport: 'Beatport',
+const streamingPlatforms: Record<
+  string,
+  { label: string; Icon: ComponentType<{ size?: number }> }
+> = {
+  spotify: { label: 'Spotify', Icon: FaSpotify },
+  apple_music: { label: 'Apple Music', Icon: SiApplemusic },
+  soundcloud: { label: 'SoundCloud', Icon: FaSoundcloud },
+  youtube: { label: 'YouTube', Icon: FaYoutube },
+  beatport: { label: 'Beatport', Icon: SiBeatport },
 };
 
 function ReleaseCard({ release, index }: { release: Release; index: number }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ['start end', 'end start'],
-  });
-  const y = useTransform(scrollYProgress, [0, 1], [40, -40]);
-
   const links = [
     { key: 'spotify', url: release.spotify_url },
     { key: 'apple_music', url: release.apple_music_url },
@@ -56,7 +53,6 @@ function ReleaseCard({ release, index }: { release: Release; index: number }) {
 
   return (
     <motion.div
-      ref={ref}
       className="release-card"
       initial={{ opacity: 0, y: 60 }}
       whileInView={{ opacity: 1, y: 0 }}
@@ -68,7 +64,7 @@ function ReleaseCard({ release, index }: { release: Release; index: number }) {
       }}
     >
       <div className="release-card__artwork">
-        <motion.div className="release-card__artwork-inner" style={{ y }}>
+        <div className="release-card__artwork-inner">
           {release.artwork_url ? (
             <img src={release.artwork_url} alt={release.title} />
           ) : (
@@ -76,7 +72,7 @@ function ReleaseCard({ release, index }: { release: Release; index: number }) {
               <span>{release.title.charAt(0)}</span>
             </div>
           )}
-        </motion.div>
+        </div>
         <div className="release-card__type-badge">{release.type}</div>
       </div>
 
@@ -96,17 +92,25 @@ function ReleaseCard({ release, index }: { release: Release; index: number }) {
       {links.length > 0 && (
         <div className="release-card__links">
           {links.map((l) => (
-            <a
-              key={l.key}
-              href={l.url!}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="release-card__link"
-              title={streamingIcons[l.key]}
-            >
-              <span>{streamingIcons[l.key]}</span>
-              <ExternalLink size={12} />
-            </a>
+            (() => {
+              const platform = streamingPlatforms[l.key];
+              if (!platform) return null;
+              const PlatformIcon = platform.Icon;
+
+              return (
+                <a
+                  key={l.key}
+                  href={l.url!}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="release-card__link"
+                  title={platform.label}
+                  aria-label={platform.label}
+                >
+                  <PlatformIcon size={16} />
+                </a>
+              );
+            })()
           ))}
         </div>
       )}

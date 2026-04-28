@@ -1,6 +1,6 @@
-import { FormEvent, useEffect, useState } from 'react';
+import { FormEvent, useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Mail, Instagram, ArrowUpRight } from 'lucide-react';
+import { Mail, Instagram, ArrowUpRight, ChevronDown } from 'lucide-react';
 import { useSiteContent } from '../context/SiteContent';
 import { supabase } from '../lib/supabase';
 import './Contact.css';
@@ -16,6 +16,8 @@ export default function Contact() {
   const [selectedArtists, setSelectedArtists] = useState<string[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitMessage, setSubmitMessage] = useState<string | null>(null);
+  const [artistsMenuOpen, setArtistsMenuOpen] = useState(false);
+  const artistsDropdownRef = useRef<HTMLDivElement>(null);
 
   const contactTitle = content.contact_title || "Let's create something together";
   const highlight = content.contact_highlight || 'something together';
@@ -36,33 +38,61 @@ export default function Contact() {
       });
   }, []);
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        artistsDropdownRef.current &&
+        !artistsDropdownRef.current.contains(event.target as Node)
+      ) {
+        setArtistsMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
     setSubmitMessage(null);
 
-    const formData = new FormData(e.currentTarget);
+    const formEl = e.currentTarget;
+    const formData = new FormData(formEl);
+    const name = String(formData.get('name') || '');
+    const email = String(formData.get('email') || '');
+    const phone = String(formData.get('phone') || '');
+    const subject = String(formData.get('subject') || '');
+    const message = String(formData.get('message') || '');
+
+    const artistsLine = selectedArtists.length > 0 ? selectedArtists.join(', ') : 'No artist selected';
+
     const payload = {
-      name: String(formData.get('name') || ''),
-      email: String(formData.get('email') || ''),
-      phone: String(formData.get('phone') || ''),
-      subject: String(formData.get('subject') || ''),
-      message: String(formData.get('message') || ''),
-      selectedArtists,
+      access_key: import.meta.env.VITE_WEB3FORMS_KEY,
+      subject: subject.trim() || `Website booking request from ${name}`,
+      from_name: 'Sodality website',
+      replyto: email,
+      cc: 'axel.page@hotmail.com',
+      name,
+      email,
+      phone: phone || '-',
+      artists: artistsLine,
+      message,
     };
 
     try {
-      const response = await fetch('/api/contact', {
+      const response = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify(payload),
       });
 
-      if (!response.ok) {
-        throw new Error('Could not send message');
+      const result = await response.json();
+      if (!response.ok || !result.success) {
+        throw new Error(result.message || 'Could not send message');
       }
 
-      e.currentTarget.reset();
+      formEl.reset();
       setSelectedArtists([]);
       setSubmitMessage('Thanks! Your message has been sent.');
     } catch {
@@ -155,26 +185,48 @@ export default function Contact() {
               </div>
             </div>
 
-            <div className={`contact-form__field ${selectedArtists.length > 0 ? 'contact-form__field--has-value' : ''}`}>
-              <select
-                id="artists"
-                name="artists"
-                className="contact-form__select"
-                multiple
-                value={selectedArtists}
-                onChange={(event) => {
-                  const values = Array.from(event.target.selectedOptions, (option) => option.value);
-                  setSelectedArtists(values);
-                }}
+            <div className="contact-form__field contact-form__dropdown-field" ref={artistsDropdownRef}>
+              <label className="contact-form__dropdown-label">
+                For which artist(s) are you contacting us?
+              </label>
+              <button
+                type="button"
+                className="contact-form__dropdown-trigger"
+                onClick={() => setArtistsMenuOpen((open) => !open)}
+                aria-expanded={artistsMenuOpen}
+                aria-haspopup="listbox"
               >
-                {artists.map((artist) => (
-                  <option key={artist.id} value={artist.name}>
-                    {artist.name}
-                  </option>
-                ))}
-              </select>
-              <label htmlFor="artists">Artists (multiple selection possible)</label>
-              <div className="contact-form__field-line" />
+                <span>
+                  {selectedArtists.length > 0
+                    ? selectedArtists.join(', ')
+                    : 'Select one or multiple artists'}
+                </span>
+                <ChevronDown size={16} />
+              </button>
+
+              {artistsMenuOpen && (
+                <div className="contact-form__dropdown-menu" role="listbox" aria-multiselectable="true">
+                  {artists.map((artist) => {
+                    const isSelected = selectedArtists.includes(artist.name);
+                    return (
+                      <label key={artist.id} className="contact-form__dropdown-option">
+                        <input
+                          type="checkbox"
+                          checked={isSelected}
+                          onChange={() => {
+                            setSelectedArtists((current) =>
+                              isSelected
+                                ? current.filter((name) => name !== artist.name)
+                                : [...current, artist.name]
+                            );
+                          }}
+                        />
+                        <span>{artist.name}</span>
+                      </label>
+                    );
+                  })}
+                </div>
+              )}
             </div>
 
             <div className="contact-form__field">

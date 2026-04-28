@@ -146,9 +146,8 @@
   position: relative;
 }
 
-.contact-form__field input,
-.contact-form__field textarea,
-.contact-form__field select {
+.contact-form__field > input,
+.contact-form__field > textarea {
   width: 100%;
   background: transparent;
   border: none;
@@ -162,21 +161,12 @@
   transition: border-color 0.3s;
 }
 
-.contact-form__field textarea {
+.contact-form__field > textarea {
   resize: vertical;
   padding-top: 1.8rem;
 }
 
-.contact-form__field select {
-  min-height: 120px;
-  padding-top: 2rem;
-}
-
-.contact-form__field select option {
-  color: var(--color-black);
-}
-
-.contact-form__field label {
+.contact-form__field > label {
   position: absolute;
   top: 1.5rem;
   left: 0;
@@ -190,11 +180,10 @@
   transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-.contact-form__field input:focus ~ label,
-.contact-form__field input:not(:placeholder-shown) ~ label,
-.contact-form__field textarea:focus ~ label,
-.contact-form__field textarea:not(:placeholder-shown) ~ label,
-.contact-form__field select:focus ~ label,
+.contact-form__field > input:focus ~ label,
+.contact-form__field > input:not(:placeholder-shown) ~ label,
+.contact-form__field > textarea:focus ~ label,
+.contact-form__field > textarea:not(:placeholder-shown) ~ label,
 .contact-form__field--has-value label {
   top: 0;
   font-size: 0.6rem;
@@ -212,14 +201,101 @@
   transition: width 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-.contact-form__field input:focus ~ .contact-form__field-line,
-.contact-form__field textarea:focus ~ .contact-form__field-line,
-.contact-form__field select:focus ~ .contact-form__field-line {
+.contact-form__field > input:focus ~ .contact-form__field-line,
+.contact-form__field > textarea:focus ~ .contact-form__field-line {
   width: 100%;
 }
 
-.contact-form__select {
-  appearance: none;
+/* Artist multi-select dropdown */
+.contact-form__dropdown-field {
+  position: relative;
+  margin-top: 0.25rem;
+}
+
+.contact-form__dropdown-label {
+  position: static !important;
+  display: block;
+  margin-bottom: 0.55rem;
+  font-family: var(--font-heading);
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(0, 0, 0, 0.55);
+  pointer-events: auto;
+}
+
+.contact-form__dropdown-trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+  text-align: left;
+  background: transparent;
+  border: 1px solid rgba(0, 0, 0, 0.16);
+  border-radius: 10px;
+  padding: 0.8rem 0.9rem;
+  color: var(--color-black);
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.contact-form__dropdown-trigger:hover,
+.contact-form__dropdown-trigger:focus-visible {
+  border-color: var(--color-orange-bright);
+  box-shadow: 0 0 0 2px rgba(240, 148, 16, 0.12);
+  outline: none;
+}
+
+.contact-form__dropdown-trigger span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.contact-form__dropdown-menu {
+  position: absolute;
+  top: calc(100% + 0.55rem);
+  left: 0;
+  right: 0;
+  z-index: 20;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+  max-height: 200px;
+  overflow-y: auto;
+  background: var(--color-white);
+  padding: 0.4rem;
+}
+
+.contact-form__dropdown-option {
+  position: static !important;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  width: 100%;
+  padding: 0.55rem 0.45rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  color: var(--color-black);
+  text-transform: none;
+  letter-spacing: normal;
+  font-weight: 400;
+  pointer-events: auto;
+}
+
+.contact-form__dropdown-option:hover {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.contact-form__dropdown-option input {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--color-orange-bright);
 }
 
 .contact-form__status {
