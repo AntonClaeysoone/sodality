@@ -12,13 +12,6 @@ interface Event {
   city: string;
 }
 
-const fallbackEvents: Event[] = [
-  { id: '1', title: 'Sodality Presents: Summer Rave', date: '2026-06-15', venue: 'Sportpaleis', city: 'Antwerp' },
-  { id: '2', title: 'Underground Sessions', date: '2026-07-22', venue: 'Fuse', city: 'Brussels' },
-  { id: '3', title: 'Bass Night', date: '2026-08-10', venue: 'Kompass', city: 'Ghent' },
-  { id: '4', title: 'Sunset Grooves', date: '2026-09-05', venue: 'Labyrinth Club', city: 'Hasselt' },
-];
-
 function formatDay(dateStr: string) {
   return new Date(dateStr).toLocaleDateString('en-GB', { day: '2-digit' });
 }
@@ -32,7 +25,7 @@ function formatYear(dateStr: string) {
 }
 
 export default function EventsSection() {
-  const [events, setEvents] = useState<Event[]>(fallbackEvents);
+  const [events, setEvents] = useState<Event[]>([]);
   const sectionRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -48,7 +41,7 @@ export default function EventsSection() {
       .eq('visible', true)
       .order('date')
       .then(({ data }) => {
-        if (data && data.length > 0) {
+        if (data) {
           setEvents(data);
         }
       });
